@@ -1,0 +1,174 @@
+html {
+  box-sizing: border-box;
+  font-size: 100%; /*best practice for respecting user settings - for accessibility
+  font-size: clamp(15px, 1vw + 14px, 18px) - MODERNA OPCIJA*/
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+
+  /* if we apply the rule to * it will apply to everything except for the pseudo elements, that's why it is necessary to add before and after */
+}
+
+*{
+    color: rgb(255, 192, 203);
+}
+
+body{
+    min-height: 100vh;
+    margin: 0;
+    line-height: 1.5; /*best readability for most text*/    font-family: 'Courier New', Courier, monospace;
+    background-color: black;
+}
+
+
+h1{
+    text-transform: uppercase;
+    text-align: center;
+}
+
+header{
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+}
+
+.gridContainer{
+    display: grid;
+    gap: 1rem;
+    max-width: 100%;
+
+    /* this is the shorthand that replaces a lot of @media inputs */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+
+    justify-items: center;
+}
+
+img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+
+.card{
+    text-align: center;
+
+    /* CLAMP is the new elegant way of insuring smooth transitions over a range of screen sizes with just 1 line of code.
+    clamp(min, preferred, max)
+    -could also use calculated values=
+    width: clamp(min(10vw, 20rem), 300px, max(90vw, 55rem));
+    width: clamp(100px, calc(30% / 2rem + 10px), 900px);
+    can be used for font-size (font-size: clamp(1rem, 2.5vw, 2rem);), width, height, border-radius, gap... */
+    padding: clamp(1rem, 5vw, 2rem);
+
+    max-width: 100%;
+
+    /* min() function can be used for any element, and also insures responsivenes, however, minmax() function is only used within grid systems */
+    _width: min(90%, 100%);
+
+    background-color: pink;
+    position: relative;
+
+}
+
+
+/*HEARTS FALLING LIKE SNOWFLAKES - ANIMATION EXERCISE*/
+
+.hearts{
+    position: fixed;
+
+    /* shorthand for top0, left0, right0, bottom0. Needed to stretch the div to all 4 corners of the viewport */
+    inset: 0;
+
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 999;
+}
+
+.hearts span{
+    position: absolute;
+    top: -10%; /*looks like its starting to fall from someplace above the doc, instead of just sitting at the top, and then falling 1 by 1 */
+    width: 24px;
+    height: 24px;
+    opacity: 0.8;
+    background: url("/assets/img/pawHeart.png") center / contain no-repeat; /*contain is best solution for icons and it respects aspect-ratio and avoids cropping*/
+    animation: fall 12s linear infinite;
+}
+
+    /* @keyframes and animation have to match 100%, however, the name of the animation can be anything, but good practice is to make sure the name reflects what the animation does.
+    These keyframes allow the hearts to eventually rotate in a full circle and to go from up to down. It also allows them to fade away when they reach the bottom */
+@keyframes fall{
+    0% {
+    transform: translateY(-10vh) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110vh) translateX(80px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.hearts span:nth-child(1) {
+    left: 10%; 
+    animation-duration: 10s; 
+}
+.hearts span:nth-child(2) { 
+    left: 25%; 
+    animation-duration: 14s; 
+    animation-delay: 1s;
+}
+.hearts span:nth-child(3) { 
+    left: 40%; 
+    animation-duration: 12s; 
+    animation-delay: 2s;
+}
+.hearts span:nth-child(4) { 
+    left: 60%; 
+    animation-duration: 16s; 
+    animation-delay: 3s;
+}
+.hearts span:nth-child(5) { 
+    left: 75%; 
+    animation-duration: 11s;
+    animation-delay: 4s; 
+}
+.hearts span:nth-child(6) {
+    left: 50%;
+    animation-duration: 7s;
+    animation-delay: 5s;
+}
+.hearts span:nth-child(7) {
+    left: 85%;
+    animation-duration: 9s;
+    animation-delay: 6s;
+}
+.hearts span:nth-child(8) {
+    left: 35%;
+    animation-duration: 10s;
+    animation-delay: 7s;
+}
+.hearts span:nth-child(9) {
+    left: 35%;
+    animation-duration: 8s;
+    animation-delay: 8s;
+}
+.hearts span:nth-child(10) {
+    left: 30%;
+    animation-duration: 18s;
+    animation-delay: 9s;
+}
+
+
+
+/*before you had to use @media for every screen size and set different parameters for different screen sizes separately to achieve a responsive design. However, today in most cases all it takes is one line of code to insure responsiveness.
+CLAMP: uses 3 values, min, preffered and max, to insure smooth transition between screen sizes. Min() and minmax() functions use 2 values to achive responsiveness. Another way of insuring responsiveness is by always using relative instead of fixed values.
+
+Animation can nowadays definitely be achieved by CSS alone, but there are cases which would require JS to step in (key words here being precision, mathematics, physics), such as: you want elements to react to mouse movement or user input, you want elements/animation to change when scrolling, or to react to tilting motion when holding a mobile device, want them to collide, or avoid each other...*/
+
+
+
